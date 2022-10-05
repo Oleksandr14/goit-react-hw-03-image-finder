@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { GlobalStyle } from './GlobalStyle';
 import { Box } from './Box';
+import { ThreeDots } from 'react-loader-spinner';
 
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
@@ -12,18 +13,21 @@ export class App extends Component {
   state = {
     searchInput: '',
     items: [],
-    totalHits: 0,
     page: 1,
+    totalHits: 0,
+    isLoader: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
     const { searchInput, page } = this.state;
 
     if (prevState.searchInput !== searchInput || prevState.page !== page) {
+      this.setState({ isLoader: true });
       getNewItems(searchInput, page).then(({ hits, totalHits }) =>
         this.setState(prev => ({
           items: [...prev.items, ...hits],
           totalHits,
+          isLoader: false,
         }))
       );
     }
@@ -38,11 +42,23 @@ export class App extends Component {
   };
 
   render() {
-    const { items, totalHits } = this.state;
+    const { items, totalHits, isLoader } = this.state;
     return (
       <Box pb={4}>
         <Searchbar onSubmit={this.handleSubmit} />
+
         <ImageGallery items={items} />
+
+        {isLoader && (
+          <ThreeDots
+            color="red"
+            wrapperStyle={{
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              width: '56px',
+            }}
+          />
+        )}
         {items.length > 0 && items.length < totalHits && (
           <Button onClick={this.updatePage} />
         )}
