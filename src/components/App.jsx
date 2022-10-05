@@ -1,12 +1,10 @@
 import { Component } from 'react';
 import { GlobalStyle } from './GlobalStyle';
 import { Box } from './Box';
-import { ThreeDots } from 'react-loader-spinner';
-
+import { Loader } from './Loader/Loader';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
-
 import { getNewItems } from './utils/Api';
 
 export class App extends Component {
@@ -43,25 +41,17 @@ export class App extends Component {
 
   render() {
     const { items, totalHits, isLoader } = this.state;
+    const loadMoreBtnTrue = items.length > 0 && items.length < totalHits;
     return (
       <Box pb={4}>
         <Searchbar onSubmit={this.handleSubmit} />
 
-        <ImageGallery items={items} />
+        <ImageGallery items={items} onToggle={this.toggleModal} />
 
-        {isLoader && (
-          <ThreeDots
-            color="red"
-            wrapperStyle={{
-              marginLeft: 'auto',
-              marginRight: 'auto',
-              width: '56px',
-            }}
-          />
-        )}
-        {items.length > 0 && items.length < totalHits && (
-          <Button onClick={this.updatePage} />
-        )}
+        {isLoader && <Loader />}
+
+        {loadMoreBtnTrue && <Button onClick={this.updatePage} />}
+
         <GlobalStyle />
       </Box>
     );

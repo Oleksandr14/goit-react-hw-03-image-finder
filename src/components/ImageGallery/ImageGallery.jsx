@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 
 import { Box } from 'components/Box';
@@ -16,4 +18,14 @@ export const ImageGallery = ({ items }) => {
       })}
     </Box>
   );
+};
+
+ImageGallery.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      webformatURL: PropTypes.string.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
+    })
+  ),
 };
