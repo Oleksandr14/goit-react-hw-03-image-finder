@@ -1,11 +1,11 @@
 import { Component } from 'react';
-import { GlobalStyle } from './GlobalStyle';
+import { GlobalStyle } from '../styles/GlobalStyle';
 import { Box } from './Box';
 import { Loader } from './Loader/Loader';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
-import { getNewItems } from './utils/Api';
+import { getNewItems } from '../utils/Api';
 
 export class App extends Component {
   state = {
