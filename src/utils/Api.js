@@ -16,3 +16,11 @@ export const getNewItems = (searchInput, page) => {
     })
     .then(res => res.data);
 };
+
+export const normalizeApi = hits => {
+  return hits.map(obj => ({
+    id: obj.id,
+    webformatURL: obj.webformatURL,
+    largeImageURL: obj.largeImageURL,
+  }));
+};
